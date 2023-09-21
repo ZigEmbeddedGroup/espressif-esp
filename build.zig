@@ -27,15 +27,17 @@ const hal = .{
 
 pub const chips = struct {
     pub const esp32_c3 = .{
-        .preferred_format = .elf, // .esp
+        .preferred_format = .bin, // TODO: Exchange FLAT format with .esp format
         .chip = .{
             .name = "ESP32-C3",
             .url = "https://www.espressif.com/en/products/socs/esp32-c3",
-            .register_definition = .{
-                .json = path("/src/chips/ESP32_C3.json"),
-            },
 
             .cpu = .{ .custom = &esp_riscv },
+
+            .register_definition = .{
+                .svd = path("/src/chips/ESP32-C3.svd"),
+            },
+
             .memory_regions = &.{
                 .{ .kind = .flash, .offset = 0x4200_0000, .length = 0x0080_0000 }, // external memory, ibus
                 .{ .kind = .ram, .offset = 0x3FC8_0000, .length = 0x0006_0000 }, // sram 1, data bus
